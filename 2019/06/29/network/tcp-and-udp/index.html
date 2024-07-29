@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://lib.baomitu.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/cat.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cat.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/cat.png">
+  <link rel="mask-icon" href="/images/cat.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://lib.baomitu.com/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"maozzi.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="TCPTCP(Transmission Control Protocol，传输控制协议)，属于传输层协议，提供面向连接的，可靠的数据传输服务。 面向连接TCP 是面向连接的协议，为了准确无误地把数据送达目标处，TCP 协议采用了三次握手策略和四次挥手策略。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP 与 UDP">
+<meta property="og:url" content="https://maozzi.github.io/2019/06/29/network/tcp-and-udp/">
+<meta property="og:site_name" content="帽子的博客">
+<meta property="og:description" content="TCPTCP(Transmission Control Protocol，传输控制协议)，属于传输层协议，提供面向连接的，可靠的数据传输服务。 面向连接TCP 是面向连接的协议，为了准确无误地把数据送达目标处，TCP 协议采用了三次握手策略和四次挥手策略。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://maozzi.github.io/2019/06/29/network/tcp-and-udp/img.png">
+<meta property="og:image" content="https://maozzi.github.io/2019/06/29/network/tcp-and-udp/img_1.png">
+<meta property="article:published_time" content="2019-06-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-07-29T14:58:59.399Z">
+<meta property="article:author" content="maozzi">
+<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="tcp">
+<meta property="article:tag" content="udp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://maozzi.github.io/2019/06/29/network/tcp-and-udp/img.png">
+
+
+<link rel="canonical" href="https://maozzi.github.io/2019/06/29/network/tcp-and-udp/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://maozzi.github.io/2019/06/29/network/tcp-and-udp/","path":"2019/06/29/network/tcp-and-udp/","title":"TCP 与 UDP"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>TCP 与 UDP | 帽子的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">帽子的博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">15</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">34</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP"><span class="nav-number">1.</span> <span class="nav-text">TCP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.1.</span> <span class="nav-text">面向连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text">TCP 三次握手</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">TCP 四次挥手</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">TCP 如何保证可靠性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.3.</span> <span class="nav-text">使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDP"><span class="nav-number">2.</span> <span class="nav-text">UDP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF-1"><span class="nav-number">2.1.</span> <span class="nav-text">使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-%E4%B8%8E-UDP-%E6%AF%94%E8%BE%83"><span class="nav-number">3.</span> <span class="nav-text">TCP 与 UDP 比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARQ-%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.</span> <span class="nav-text">ARQ 协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%9C%E6%AD%A2%E7%AD%89%E5%BE%85ARQ%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.1.</span> <span class="nav-text">停止等待ARQ协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B6%85%E6%97%B6%E9%87%8D%E4%BC%A0"><span class="nav-number">4.1.1.</span> <span class="nav-text">超时重传</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E7%BB%ADARQ%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.2.</span> <span class="nav-text">连续ARQ协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B6%85%E6%97%B6%E9%87%8D%E4%BC%A0%E5%8E%9F%E7%90%86"><span class="nav-number">4.3.</span> <span class="nav-text">超时重传原理</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="maozzi"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">maozzi</p>
+  <div class="site-description" itemprop="description">帽子的博客，记录日常有趣的瞬间</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/maozzi" title="Gitee → https:&#x2F;&#x2F;gitee.com&#x2F;maozzi" rel="noopener me" target="_blank"><i class="fa-solid fa-code fa-fw"></i>Gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:maozzi@icloud.com" title="Email → mailto:maozzi@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://maozzi.github.io/2019/06/29/network/tcp-and-udp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="maozzi">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帽子的博客">
+      <meta itemprop="description" content="帽子的博客，记录日常有趣的瞬间">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="TCP 与 UDP | 帽子的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TCP 与 UDP
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-06-30 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-30T00:00:00+08:00">2019-06-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-07-29 22:58:59" itemprop="dateModified" datetime="2024-07-29T22:58:59+08:00">2024-07-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>24 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><p>TCP(Transmission Control Protocol，传输控制协议)，属于传输层协议，<br>提供面向连接的，可靠的数据传输服务。</p>
+<h3 id="面向连接"><a href="#面向连接" class="headerlink" title="面向连接"></a>面向连接</h3><p>TCP 是面向连接的协议，为了准确无误地把数据送达目标处，<br>TCP 协议采用了三次握手策略和四次挥手策略。</p>
+<span id="more"></span>
+
+<h4 id="TCP-三次握手"><a href="#TCP-三次握手" class="headerlink" title="TCP 三次握手"></a>TCP 三次握手</h4><img src="/2019/06/29/network/tcp-and-udp/img.png" class="" title="img.png">
+
+<p>左边为客户端（client），右边为服务器端（server）。</p>
+<ul>
+<li>SYN：同步序列编号(Synchronize Sequence Numbers)是建立连接时使用的握手信号。</li>
+<li>ACK：消息响应(Acknowledgement)是对SYN消息的响应。</li>
+<li>seq：包序列号。</li>
+<li>ack：确认信息。</li>
+</ul>
+<p>建立一个tcp连接，三次握手步骤如图：</p>
+<ol>
+<li>第一次握手：客户端向服务器发起一个连接请求，请求中携带SYN(seq&#x3D;x)标志的数据包，<br>  然后客户端进入SYN_SEND状态，等待服务端的确认。这一步，服务端可以确认自身接收功能<br>  正常，客户端发送功能正常；</li>
+<li>第二次握手：服务端接收到客户端的连接请求后，向客户端发送一个确认连接响应，响应中携带<br>  SYN+ACK(seq&#x3D;y,ack&#x3D;x+1)数据包，然后服务器进入SYN_RECV状态。这一步客户端可以确认<br>  自身和服务端发送接收功能都正常</li>
+<li>第三次握手：客户端接收到服务端发送的确认连接响应后，向服务端发送一个确认响应，响应中携带<br>  ACK(ack&#x3D;y+1)数据包，然后客户端和服务端都进入ESTABLISHED状态。<br>  这一步服务端可以确认客户端接收功能正常，自身发送接收功能正常</li>
+</ol>
+<h4 id="TCP-四次挥手"><a href="#TCP-四次挥手" class="headerlink" title="TCP 四次挥手"></a>TCP 四次挥手</h4><img src="/2019/06/29/network/tcp-and-udp/img_1.png" class="" title="img_1.png">
+
+<p>左边为客户端（client），右边为服务器端（server）。</p>
+<ul>
+<li>FIN：结束(FINISH)是连接结束挥手信号。</li>
+<li>ACK：消息响应(Acknowledgement)是对FIN消息的响应。</li>
+<li>seq：包序列号。</li>
+<li>ack：确认信息。</li>
+</ul>
+<p>已建立的连接在结束时，四次挥手步骤如图：</p>
+<ol>
+<li>第一次挥手：客户端向服务端发送一个带有FIN(seq&#x3D;x)的数据包，表示要关闭现有连接，然后<br>  客户端进入FIN-WAIT-1状态</li>
+<li>第二次挥手：服务端接收到FIN标志数据包后，会发送一个ACK(ack&#x3D;x+1)标志的数据包，表示确认<br>  收到，然后服务端进入CLOSE-WAIT状态，客户接收到后进入FIN-WAIT-2状态</li>
+<li>第三次挥手：服务端向客户端发送一个带有FIN(seq&#x3D;y)标志数据包，然后进入LAST-ACK状态</li>
+<li>第四次挥手：客户端接收到后，发送一个ACK(ack&#x3D;y+1)标志数据包，进入TIME-WAIT状态。<br>  服务端接收ACK(ack&#x3D;y+1)数据包后，进入CLOSE状态。此时客户端等待2MSL后依然没有收到<br>  回复说明服务端已正常关闭，客户端也关闭连接</li>
+</ol>
+<h3 id="TCP-如何保证可靠性"><a href="#TCP-如何保证可靠性" class="headerlink" title="TCP 如何保证可靠性"></a>TCP 如何保证可靠性</h3><p>TCP是面向连接的，可靠的数据传输协议。那么是如何保证数据传输可靠呢？</p>
+<ol>
+<li>基于数据块传输。数据会被切割成合适大小进行传输。</li>
+<li>对失序数据包进行重排与去重。TCP给每一个数据块设置一个序列号，可以根据序列号排序以及去重</li>
+<li>校验和。TCP会根据数据包header和携带数据进行校验和，用于保证传输过程中的可靠</li>
+<li>重传机制。TCP在丢包或者网络延迟情况，会重新发送数据包直到接收端确认。常见重传机制：<ol>
+<li>基于计时器重传机制（超时重传）</li>
+<li>基于接收端反馈信息重传机制（快速重传）</li>
+<li>基于快速重传，同时返回最近接收的序列号范围（SACK重传）</li>
+<li>基于SACK重传，同时返回数据包重复序列号（D-SACK重传）</li>
+</ol>
+</li>
+<li>流量控制。TCP连接有固定的缓冲区，当超出缓冲区容纳范围会提示发送方降低发送速率，防止丢包。<br>  TCP是利用可变大小的滑动窗口实现流量控制</li>
+<li>拥塞控制。拥塞控制是为了防止过多数据注入网络中，导致网络链路过载。TCP维护一个拥塞窗口状态<br>  变量来动态控制拥塞程度，提供4中算法：<ol>
+<li>慢开始。由小到大依次增大拥塞窗口数值，来探测网络情况。每经过一次传播轮次，拥塞窗口数值加倍</li>
+<li>拥塞避免。拥塞窗口缓慢增大，每经过一个RTT，拥塞窗口加1</li>
+<li>快重传与快恢复。接收方如果接收到一个失序数据包，立即给发送方一个重复确认，如果发送方接收<br>  3个重复确认则会认为该数据包已丢失并立即重传丢失数据包。</li>
+</ol>
+</li>
+</ol>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>TCP 用于对传输准确性要求特别高的场景，比如文件传输、发送和接收邮件、远程登录等等。</p>
+<p>常见协议：HTTP协议、FTP协议、SMTP协议、SSH协议</p>
+<h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><p>UDP（User Datagram Protocol）是为应用程序提供一种以最少的协议机制向其他程序发送消息的协议。<br>其主要特点是无连接，不保证可靠传输和面向报文。属于传输层的协议</p>
+<h3 id="使用场景-1"><a href="#使用场景-1" class="headerlink" title="使用场景"></a>使用场景</h3><p>UDP 一般用于即时通信，比如：语音、 视频、直播等等。</p>
+<p>常见协议：DNS协议、DHCP协议</p>
+<h2 id="TCP-与-UDP-比较"><a href="#TCP-与-UDP-比较" class="headerlink" title="TCP 与 UDP 比较"></a>TCP 与 UDP 比较</h2><table>
+<thead>
+<tr>
+<th></th>
+<th align="center">TCP</th>
+<th align="center">UDP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>是否面向连接</td>
+<td align="center">是</td>
+<td align="center">否</td>
+</tr>
+<tr>
+<td>是否可靠</td>
+<td align="center">是</td>
+<td align="center">否</td>
+</tr>
+<tr>
+<td>是否有状态</td>
+<td align="center">是</td>
+<td align="center">否</td>
+</tr>
+<tr>
+<td>传输效率</td>
+<td align="center">较慢</td>
+<td align="center">较快</td>
+</tr>
+<tr>
+<td>传输形式</td>
+<td align="center">字节流</td>
+<td align="center">数据报文段</td>
+</tr>
+<tr>
+<td>首部开销</td>
+<td align="center">20 ～ 60 bytes</td>
+<td align="center">8 bytes</td>
+</tr>
+<tr>
+<td>是否提供广播或多播服务</td>
+<td align="center">否</td>
+<td align="center">是</td>
+</tr>
+</tbody></table>
+<h2 id="ARQ-协议"><a href="#ARQ-协议" class="headerlink" title="ARQ 协议"></a>ARQ 协议</h2><p>自动重传请求（Automatic Repeat-reQuest，ARQ）是 OSI 模型中数据链路层<br>和传输层的错误纠正协议之一。它通过使用确认和超时这两个机制，<br>在不可靠服务的基础上实现可靠的信息传输。如果发送方在发送后一段时间之内<br>没有收到确认信息（Acknowledgements，就是我们常说的 ACK），它通常会重新发送，<br>直到收到确认或者重试超过一定的次数。</p>
+<h3 id="停止等待ARQ协议"><a href="#停止等待ARQ协议" class="headerlink" title="停止等待ARQ协议"></a>停止等待ARQ协议</h3><p>基本原理就是每发完一个分组就停止发送，等待对方确认（回复 ACK）。<br>如果过了一段时间（超时时间后），还是没有收到 ACK 确认，说明没有发送成功，<br>需要重新发送，直到收到确认后再发下一个分组；<br>在停止等待协议中，若接收方收到重复分组，就丢弃该分组，但同时还要发送确认。</p>
+<h4 id="超时重传"><a href="#超时重传" class="headerlink" title="超时重传"></a>超时重传</h4><p>是指只要超过一段时间仍然没有收到确认，就重传前面发送过的分组（认为刚才发送过的分组<br>丢失了）。因此每发送完一个分组需要设置一个超时计时器，其重传时间应比数据在分组<br>传输的平均往返时间更长一些</p>
+<ul>
+<li><strong>确认丢失</strong>：接收方在接收到数据后发送的确认消息丢失，接收方超时重传一遍该数据包，导致<br>  接收方接收到两份一样的数据包，接收方会采取2种措施：<ol>
+<li>丢弃该多余重复数据包</li>
+<li>向发送方发送确认消息</li>
+</ol>
+</li>
+<li><strong>确认迟到</strong>：由于网络延迟等问题导致确认消息迟到，接收方超时重传一遍该数据包，导致<br>  接收方接收到两份一样的数据包，同时接收方随后接收到重复确认消息。处理方式：<ol>
+<li>发送方直接丢弃多余重复确认消息</li>
+<li>接收方直接丢弃多余重复数据包</li>
+</ol>
+</li>
+</ul>
+<h3 id="连续ARQ协议"><a href="#连续ARQ协议" class="headerlink" title="连续ARQ协议"></a>连续ARQ协议</h3><p>连续ARQ协议可提高信道利用率。发送方维持一个发送窗口，凡位于发送窗口内的分组可以<br>连续发送出去，而不需要等待对方确认。接收方一般采用累计确认，对按序到达的最后一个分组<br>发送确认，表明到这个分组为止的所有分组都已经正确收到了。</p>
+<ul>
+<li>优点： 信道利用率高，容易实现，即使确认丢失，也不必重传。</li>
+<li>缺点： 不能向发送方反映出接收方已经正确收到的所有分组的信息。<ul>
+<li>比如：发送方发送了 5 条 消息，中间第三条丢失（3 号），这时接收方只能对前两个<br>  发送确认。发送方无法知道后三个分组的下落，而只好把后三个全部重传一次。<br>  这也叫 Go-Back-N（回退 N），表示需要退回来重传已经发送过的 N 个消息。</li>
+</ul>
+</li>
+</ul>
+<h3 id="超时重传原理"><a href="#超时重传原理" class="headerlink" title="超时重传原理"></a>超时重传原理</h3><p>当发送方发送数据之后，它启动一个<mark class="label danger">定时器</mark>，等待目的端确认收到这个报文段。</p>
+<p>接收端实体对已成功收到的包发回一个相应的确认信息（ACK）。如果发送端实体在合理的<br>往返时延（RTT）内未收到确认消息，那么对应的数据包就被假设为已丢失并进行重传。</p>
+<ul>
+<li>RTT（Round Trip Time）：往返时间，也就是数据包从发出去到收到对应 ACK 的时间。</li>
+<li>RTO（Retransmission Time Out）：重传超时时间，即从数据发送时刻算起，<br>  超过这个时间便执行重传。RTT 的值会随着网络的波动而变化，如加权移动平均算法，<br>  Jacobson 算法等，这些算法都是根据RTT的测量和变化来估计RTO的值。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+              <a href="/tags/tcp/" rel="tag"># tcp</a>
+              <a href="/tags/udp/" rel="tag"># udp</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/06/27/network/osi-model-and-tcp-ip-model/" rel="prev" title="OSI 和 TCP/IP 网络模型">
+                  <i class="fa fa-angle-left"></i> OSI 和 TCP/IP 网络模型
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/15/base/fixed-and-float-point/" rel="next" title="定点数和浮点数">
+                  定点数和浮点数 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">maozzi</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">20k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:23</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://lib.baomitu.com/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://lib.baomitu.com/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

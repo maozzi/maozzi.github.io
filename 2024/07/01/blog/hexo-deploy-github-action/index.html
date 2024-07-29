@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://lib.baomitu.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/cat.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cat.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/cat.png">
+  <link rel="mask-icon" href="/images/cat.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://lib.baomitu.com/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"maozzi.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="参考资料：  Hexo官方文档：在 GitHub Pages 上部署 Hexo Hexo官方文档：一键部署 Hexo Action   本文将使用 GitHub Actions 部署至 GitHub Pages，此方法适用于公开或私人储存库。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 GitHub Actions 上部署 Hexo 博客">
+<meta property="og:url" content="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/">
+<meta property="og:site_name" content="帽子的博客">
+<meta property="og:description" content="参考资料：  Hexo官方文档：在 GitHub Pages 上部署 Hexo Hexo官方文档：一键部署 Hexo Action   本文将使用 GitHub Actions 部署至 GitHub Pages，此方法适用于公开或私人储存库。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/img.png">
+<meta property="og:image" content="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/img_1.png">
+<meta property="og:image" content="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/img_2.png">
+<meta property="og:image" content="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/img_3.png">
+<meta property="og:image" content="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/img_4.png">
+<meta property="og:image" content="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/img_5.png">
+<meta property="og:image" content="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/img_6.png">
+<meta property="og:image" content="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/img_7.png">
+<meta property="og:image" content="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/img_8.png">
+<meta property="og:image" content="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/img_9.png">
+<meta property="og:image" content="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/img_10.png">
+<meta property="article:published_time" content="2024-07-01T14:55:23.000Z">
+<meta property="article:modified_time" content="2024-07-29T14:58:59.367Z">
+<meta property="article:author" content="maozzi">
+<meta property="article:tag" content="hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/img.png">
+
+
+<link rel="canonical" href="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/","path":"2024/07/01/blog/hexo-deploy-github-action/","title":"在 GitHub Actions 上部署 Hexo 博客"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>在 GitHub Actions 上部署 Hexo 博客 | 帽子的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">帽子的博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">15</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">34</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Hexo-%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2"><span class="nav-number">1.</span> <span class="nav-text">使用 Hexo 创建第一篇博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">1.1.</span> <span class="nav-text">开始</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.1.1.</span> <span class="nav-text">项目初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2"><span class="nav-number">1.1.2.</span> <span class="nav-text">新建第一篇博客</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8C-hexo"><span class="nav-number">1.1.3.</span> <span class="nav-text">本地运行 hexo</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-GitHub-Actions-%E9%83%A8%E7%BD%B2-Hexo-%E5%8D%9A%E5%AE%A2"><span class="nav-number">2.</span> <span class="nav-text">使用 GitHub Actions 部署 Hexo 博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B-1"><span class="nav-number">2.1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.</span> <span class="nav-text">基本配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#token-%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.1.</span> <span class="nav-text">token 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#blog-%E4%BB%93%E5%BA%93%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.2.</span> <span class="nav-text">blog 仓库配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GitHub-Actions-%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6"><span class="nav-number">2.3.</span> <span class="nav-text">GitHub Actions 脚本文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%B7%A5%E4%BD%9C%E6%B5%81-%E5%AE%9A%E4%B9%89-YAML-%E6%96%87%E4%BB%B6"><span class="nav-number">2.3.1.</span> <span class="nav-text">定义工作流(定义 YAML 文件)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81%E4%BB%A3%E7%A0%81"><span class="nav-number">2.3.2.</span> <span class="nav-text">本地推送代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81"><span class="nav-number">2.3.3.</span> <span class="nav-text">验证</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.4.</span> <span class="nav-text">遇到的问题</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="maozzi"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">maozzi</p>
+  <div class="site-description" itemprop="description">帽子的博客，记录日常有趣的瞬间</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/maozzi" title="Gitee → https:&#x2F;&#x2F;gitee.com&#x2F;maozzi" rel="noopener me" target="_blank"><i class="fa-solid fa-code fa-fw"></i>Gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:maozzi@icloud.com" title="Email → mailto:maozzi@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://maozzi.github.io/2024/07/01/blog/hexo-deploy-github-action/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="maozzi">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帽子的博客">
+      <meta itemprop="description" content="帽子的博客，记录日常有趣的瞬间">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="在 GitHub Actions 上部署 Hexo 博客 | 帽子的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在 GitHub Actions 上部署 Hexo 博客
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-07-01 22:55:23" itemprop="dateCreated datePublished" datetime="2024-07-01T22:55:23+08:00">2024-07-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-07-29 22:58:59" itemprop="dateModified" datetime="2024-07-29T22:58:59+08:00">2024-07-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%9D%82%E9%A1%B9/" itemprop="url" rel="index"><span itemprop="name">博客杂项</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>15 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>参考资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/github-pages">Hexo官方文档：在 GitHub Pages 上部署 Hexo</a></li>
+<li><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/one-command-deployment">Hexo官方文档：一键部署</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/marketplace/actions/hexo-action">Hexo Action</a></li>
+</ul>
+</blockquote>
+<p>本文将使用 <mark class="label info">GitHub Actions</mark> 部署至 <mark class="label info">GitHub Pages</mark>，<br>此方法适用于公开或私人储存库。</p>
+<span id="more"></span>
+
+<h2 id="使用-Hexo-创建第一篇博客"><a href="#使用-Hexo-创建第一篇博客" class="headerlink" title="使用 Hexo 创建第一篇博客"></a>使用 Hexo 创建第一篇博客</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo: 7.2.0</span><br><span class="line">hexo-cli: 4.3.2</span><br><span class="line">node: 21.7.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><h4 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h4><p>指定文件夹初始化，新建hexo项目</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo init &lt;folder&gt;</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> &lt;folder&gt;</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm install</span></span><br></pre></td></tr></table></figure>
+
+<p>执行完成后，目录结构如下</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml					# hexo 配置文件</span><br><span class="line">├── package.json				# hexo 依赖文件</span><br><span class="line">├── scaffolds					# 模版目录</span><br><span class="line">├── source</span><br><span class="line">|   ├── _drafts					# 归档目录</span><br><span class="line">|   └── _posts					# 博客目录</span><br><span class="line">└── themes					# 主题目录</span><br></pre></td></tr></table></figure>
+
+<p>对于各个文件、目录更多详情，请移步 <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/setup">Hexo官方文档：建站</a></p>
+<h4 id="新建第一篇博客"><a href="#新建第一篇博客" class="headerlink" title="新建第一篇博客"></a>新建第一篇博客</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果没有设置 layout 的话，默认 post</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo new [layout] --path [path/title] <span class="string">&quot;title&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>更多命令，请移步 <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/commands">Hexo官方文档：指令</a></p>
+<h4 id="本地运行-hexo"><a href="#本地运行-hexo" class="headerlink" title="本地运行 hexo"></a>本地运行 hexo</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo server</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或者</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm run server</span></span><br></pre></td></tr></table></figure>
+
+<p>执行命令，当看到截图所示，则说明项目启动成功 🎉</p>
+<img src="/2024/07/01/blog/hexo-deploy-github-action/img.png" class="" title="img.png">
+
+<h2 id="使用-GitHub-Actions-部署-Hexo-博客"><a href="#使用-GitHub-Actions-部署-Hexo-博客" class="headerlink" title="使用 GitHub Actions 部署 Hexo 博客"></a>使用 GitHub Actions 部署 Hexo 博客</h2><p><strong>GitHub Actions</strong> 是一种持续集成和持续交付(CI&#x2F;CD) 平台，<br>可用于自动执行生成、测试和部署管道。</p>
+<p><strong>GitHub Pages</strong> 是一项静态站点托管服务，它直接从GitHub 上的仓库获取HTML、<br>CSS 和JavaScript 文件，（可选）通过构建过程运行文件，然后发布网站。</p>
+<p>所以，我们需要两个github repository：</p>
+<ol>
+<li><strong>blog</strong> 仓库用于存放hexo源码</li>
+<li><strong>maozzi.github.io</strong> 仓库用于存放hexo 打包编译后的静态文件</li>
+</ol>
+<p>设计两个repo的原因：</p>
+<ol>
+<li>代码不会互相干扰，源代码更加简洁，不会增加多余的静态文件</li>
+<li>源代码库可以选择private，更高的安全性、隐私性</li>
+</ol>
+<h3 id="开始-1"><a href="#开始-1" class="headerlink" title="开始"></a>开始</h3><p>新建两个仓库，blog（名字随意）与 maozzi.github.io，blog仓库公开(public)还是私有(private)<br>自行决定，影响不大。</p>
+<p>⚠️注意：<br>maozzi.github.io 仓库名字比较特殊，跟 <strong>GitHub Pages</strong> 规则有关。就是<br>只有命名以 {github的username}.github.io 项目名称格式，最终才能通过<br>https:&#x2F;&#x2F;{github的username}.github.io 访问自己的博客。</p>
+<p>我的 {github的username} 是 maozzi，所以我的项目名为 maozzi.github.io，<br>同时可以通过 <a href="https://maozzi.github.io/">https://maozzi.github.io</a> 访问我的博客。</p>
+<img src="/2024/07/01/blog/hexo-deploy-github-action/img_1.png" class="" title="img_1.png">
+
+<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><p>我们主要往源代码库(blog)推送hexo项目代码，blog 仓库执行打包编译，<br>那么 blog 仓库如何把打包后代码推送给 maozzi.github.io 呢？</p>
+<p>这时需要使用 git push 命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push --force https://&#123;token&#125;@github.com/&#123;username&#125;/&#123;username&#125;.github.io.git master:master</span><br></pre></td></tr></table></figure>
+
+<p>这条命令需要两个参数：</p>
+<ol>
+<li>token: 指 github 生成的具有选定权限的密钥 token</li>
+<li>username: 指 GitHub username，就是你的<strong>登录用户名</strong>，不是昵称！！！</li>
+</ol>
+<h4 id="token-配置"><a href="#token-配置" class="headerlink" title="token 配置"></a>token 配置</h4><ol>
+<li>进入 github 个人设置(Settings)，URL: <a target="_blank" rel="noopener" href="https://github.com/settings/profile">https://github.com/settings/profile</a>  <img src="/2024/07/01/blog/hexo-deploy-github-action/img_2.png" class="" title="img_2.png"></li>
+<li>往下滑，找到 <strong>Developer Settings</strong> 进入，URL：<a target="_blank" rel="noopener" href="https://github.com/settings/apps">https://github.com/settings/apps</a>  <img src="/2024/07/01/blog/hexo-deploy-github-action/img_3.png" class="" title="img_3.png"></li>
+<li>展开 <strong>Personal access tokens</strong>，选择 <strong>Tokens (classic)</strong> 点击进入，<br>  选择右上角 Generate new token -&gt; classic， URL：<a target="_blank" rel="noopener" href="https://github.com/settings/tokens">https://github.com/settings/tokens</a>  <img src="/2024/07/01/blog/hexo-deploy-github-action/img_4.png" class="" title="img_4.png"></li>
+<li>最后，选择想要的权限，点击完成，保存好这个token，可以选择永不过期，<br>  URL：<a target="_blank" rel="noopener" href="https://github.com/settings/tokens/new">https://github.com/settings/tokens/new</a>  <img src="/2024/07/01/blog/hexo-deploy-github-action/img_5.png" class="" title="img_5.png"></li>
+</ol>
+<h4 id="blog-仓库配置"><a href="#blog-仓库配置" class="headerlink" title="blog 仓库配置"></a>blog 仓库配置</h4><p>blog 仓库，主要工作是使用 GitHub Actions 打包编译hexo项目，最后把打包好的静态文件<br>git push 到 maozzi.github.io 仓库。</p>
+<p>GitHub Actions 每次打包编译都是新建一个新的docker 容器环境，所有的工作都是在<br>docker 容器中完成。在最后的 git push 需要使用到的参数，则需要使用环境变量，<br>而环境变量，则需要 blog 仓库来设置。</p>
+<ol>
+<li>进入 blog 仓库设置(Settings)  <img src="/2024/07/01/blog/hexo-deploy-github-action/img_6.png" class="" title="img_6.png"></li>
+<li>选择 <strong>Secrets and variables</strong> -&gt; <strong>actions</strong>，点击 <strong>New repository secret</strong>  <img src="/2024/07/01/blog/hexo-deploy-github-action/img_7.png" class="" title="img_7.png"></li>
+<li>新建3个环境变量<ol>
+<li><strong>DEPLOY_KEY</strong>：刚才生成的 github token，用于 git push</li>
+<li><strong>EMAIL</strong>：github 注册邮箱，用于在docker容器中git全局邮箱设置</li>
+<li><strong>USERNAME</strong>：github 登录用户名，用于在docker容器中git全局用户名设置以及<br>  git push 需使用</li>
+</ol>
+</li>
+</ol>
+<h3 id="GitHub-Actions-脚本文件"><a href="#GitHub-Actions-脚本文件" class="headerlink" title="GitHub Actions 脚本文件"></a>GitHub Actions 脚本文件</h3><p>GitHub Actions 以工作流方式，使其在存储库中发生事件（例如打开拉取请求或创建问题）时触发。</p>
+<p>工作流包含一个或多个可按顺序或并行运行的作业。工作流程由签入到存储库的 YAML 文件定义，<br>并在存储库中的事件触发时运行，也可以手动触发，或按定义的时间表触发。</p>
+<p>每个作业都将在其自己的虚拟机运行器中或在容器中运行，并具有一个或多个步骤，<br>用于运行定义的脚本或运行动作。</p>
+<p>动作是一个可重用的扩展，可简化工作流。</p>
+<h4 id="定义工作流-定义-YAML-文件"><a href="#定义工作流-定义-YAML-文件" class="headerlink" title="定义工作流(定义 YAML 文件)"></a>定义工作流(定义 YAML 文件)</h4><p>在hexo项目中，新建 <strong>.github&#x2F;workflows&#x2F;deploy.yml</strong>，yaml文件名可以随意</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Deploy</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v4</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">submodules:</span> <span class="literal">true</span> <span class="comment"># Checkout private submodules(themes or something else).</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Use</span> <span class="string">Node.js</span> <span class="number">21</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@v4</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="comment"># Examples: 20, 18.19, &gt;=16.20.2, lts/Iron, lts/Hydrogen, *, latest, current, node</span></span><br><span class="line">          <span class="comment"># Ref: https://github.com/actions/setup-node#supported-version-syntax</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="string">&quot;21&quot;</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Cache</span> <span class="string">NPM</span> <span class="string">dependencies</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/cache@v4</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">node_modules</span></span><br><span class="line">          <span class="attr">key:</span> <span class="string">$&#123;&#123;runner.OS&#125;&#125;-$&#123;&#123;hashFiles(&#x27;**/package-lock.json&#x27;)&#125;&#125;</span></span><br><span class="line">          <span class="attr">restore-keys:</span> <span class="string">|</span></span><br><span class="line"><span class="string">            $&#123;&#123; runner.OS &#125;&#125;-npm-cache</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Dependencies</span></span><br><span class="line">        <span class="attr">if:</span> <span class="string">steps.cache.outputs.cache-hit</span> <span class="type">!=</span> <span class="string">&#x27;true&#x27;</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          npm install</span></span><br><span class="line"><span class="string">          npm run build</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Upload</span> <span class="string">Pages</span> <span class="string">artifact</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/upload-pages-artifact@v3</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">./public</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># Deploy hexo blog website.</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span></span><br><span class="line">        <span class="attr">id:</span> <span class="string">deploy</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          cd ./public</span></span><br><span class="line"><span class="string">          git init</span></span><br><span class="line"><span class="string">          git config --global user.name &#x27;$&#123;&#123; secrets.USERNAME &#125;&#125;&#x27;</span></span><br><span class="line"><span class="string">          git config --global user.email &#x27;$&#123;&#123; secrets.EMAIL &#125;&#125;&#x27;</span></span><br><span class="line"><span class="string">          git add .</span></span><br><span class="line"><span class="string">          git commit -m &quot;$&#123;&#123; github.event.head_commit.message &#125;&#125; $(date +&quot;%Z %Y-%m-%d %A %H:%M:%S&quot;) Updated By Github Actions&quot;</span></span><br><span class="line"><span class="string">          git push --force https://$&#123;&#123; secrets.DEPLOY_KEY &#125;&#125;@github.com/$&#123;&#123; secrets.USERNAME &#125;&#125;/$&#123;&#123; secrets.USERNAME &#125;&#125;.github.io.git master:master</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="本地推送代码"><a href="#本地推送代码" class="headerlink" title="本地推送代码"></a>本地推送代码</h4><p>blog 仓库是保存源代码的，保存 hexo 项目，所以本地 git push 代码到 blog 仓库即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+
+<h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><p>进入 blog 仓库 -&gt; <strong>Actions</strong>，查看工作流的状态：</p>
+<ol>
+<li>工作流如果绿勾✅，则说明运行成功，可以查看 maozzi.github.io 仓库是否有文件，<br>  <a target="_blank" rel="noopener" href="https://maozzi.github.io,是否可以访问/">https://maozzi.github.io，是否可以访问</a>  <img src="/2024/07/01/blog/hexo-deploy-github-action/img_8.png" class="" title="img_8.png"></li>
+<li>工作流如果红叉❌，则说明运行失败，点击进入详情查看失败原因，逐步分析。  <img src="/2024/07/01/blog/hexo-deploy-github-action/img_9.png" class="" title="img_9.png"></li>
+</ol>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><ol>
+<li>Q：node 版本问题 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">notsup Unsupported engine for hexo-log@4.1.0: wanted: &#123;&quot;node&quot;:&quot;&gt;=14&quot;&#125; (current: &#123;&quot;node&quot;:&quot;12.22.12&quot;,&quot;npm&quot;:&quot;6.14.16&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+ <img src="/2024/07/01/blog/hexo-deploy-github-action/img_10.png" class="" title="img_10.png">
+
+ A：修改或指定yaml文件中node版本</li>
+<li>Q：npm ci 问题<br><br>  A：改成npm i</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/hexo/" rel="tag"># hexo</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/04/07/algorithm/stack/next-greater-element/" rel="prev" title="下一个更大元素系列">
+                  <i class="fa fa-angle-left"></i> 下一个更大元素系列
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/07/29/docker/custom-docker-hub-image/" rel="next" title="国内 Docker Hub 镜像源停服后自救方式">
+                  国内 Docker Hub 镜像源停服后自救方式 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">maozzi</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">20k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:23</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://lib.baomitu.com/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://lib.baomitu.com/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

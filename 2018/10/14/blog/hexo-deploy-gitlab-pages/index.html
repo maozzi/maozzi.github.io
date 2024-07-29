@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://lib.baomitu.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/cat.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cat.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/cat.png">
+  <link rel="mask-icon" href="/images/cat.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://lib.baomitu.com/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"maozzi.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="使用 Hexo 创建第一篇博客123hexo: 7.2.0hexo-cli: 4.3.2node: 21.7.1  开始项目初始化指定文件夹初始化，新建hexo项目 123$ hexo init &lt;folder&gt;$ cd &lt;folder&gt;$ npm install  执行完成后，目录结构如下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitLab Pages 部署 Hexo 博客">
+<meta property="og:url" content="https://maozzi.github.io/2018/10/14/blog/hexo-deploy-gitlab-pages/">
+<meta property="og:site_name" content="帽子的博客">
+<meta property="og:description" content="使用 Hexo 创建第一篇博客123hexo: 7.2.0hexo-cli: 4.3.2node: 21.7.1  开始项目初始化指定文件夹初始化，新建hexo项目 123$ hexo init &lt;folder&gt;$ cd &lt;folder&gt;$ npm install  执行完成后，目录结构如下">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://maozzi.github.io/2018/10/14/blog/hexo-deploy-gitlab-pages/img.png">
+<meta property="og:image" content="https://maozzi.github.io/2018/10/14/blog/hexo-deploy-gitlab-pages/img_1.png">
+<meta property="og:image" content="https://maozzi.github.io/2018/10/14/blog/hexo-deploy-gitlab-pages/img_2.png">
+<meta property="og:image" content="https://maozzi.github.io/2018/10/14/blog/hexo-deploy-gitlab-pages/img_3.png">
+<meta property="og:image" content="https://maozzi.github.io/2018/10/14/blog/hexo-deploy-gitlab-pages/img_4.png">
+<meta property="article:published_time" content="2018-10-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-07-29T14:58:59.371Z">
+<meta property="article:author" content="maozzi">
+<meta property="article:tag" content="hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://maozzi.github.io/2018/10/14/blog/hexo-deploy-gitlab-pages/img.png">
+
+
+<link rel="canonical" href="https://maozzi.github.io/2018/10/14/blog/hexo-deploy-gitlab-pages/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://maozzi.github.io/2018/10/14/blog/hexo-deploy-gitlab-pages/","path":"2018/10/14/blog/hexo-deploy-gitlab-pages/","title":"GitLab Pages 部署 Hexo 博客"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>GitLab Pages 部署 Hexo 博客 | 帽子的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">帽子的博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">15</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">34</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Hexo-%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2"><span class="nav-number">1.</span> <span class="nav-text">使用 Hexo 创建第一篇博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">1.1.</span> <span class="nav-text">开始</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.1.1.</span> <span class="nav-text">项目初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2"><span class="nav-number">1.1.2.</span> <span class="nav-text">新建第一篇博客</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8C-hexo"><span class="nav-number">1.1.3.</span> <span class="nav-text">本地运行 hexo</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-GitLab-Pages-%E9%83%A8%E7%BD%B2-Hexo-%E5%8D%9A%E5%AE%A2"><span class="nav-number">2.</span> <span class="nav-text">使用 GitLab Pages 部署 Hexo 博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA-maozzi-gitlab-io-%E4%BB%93%E5%BA%93"><span class="nav-number">2.1.</span> <span class="nav-text">新建 maozzi.gitlab.io 仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA-CI-CD-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-YAML%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">新建 CI&#x2F;CD 配置文件(YAML文件)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81"><span class="nav-number">2.3.</span> <span class="nav-text">验证</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81-URL-%E8%AE%BF%E9%97%AE"><span class="nav-number">2.3.1.</span> <span class="nav-text">验证 URL 访问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81-gitlab-CI-CD-%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="nav-number">2.3.2.</span> <span class="nav-text">验证 gitlab CI&#x2F;CD 工作流</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="maozzi"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">maozzi</p>
+  <div class="site-description" itemprop="description">帽子的博客，记录日常有趣的瞬间</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/maozzi" title="Gitee → https:&#x2F;&#x2F;gitee.com&#x2F;maozzi" rel="noopener me" target="_blank"><i class="fa-solid fa-code fa-fw"></i>Gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:maozzi@icloud.com" title="Email → mailto:maozzi@icloud.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://maozzi.github.io/2018/10/14/blog/hexo-deploy-gitlab-pages/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="maozzi">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帽子的博客">
+      <meta itemprop="description" content="帽子的博客，记录日常有趣的瞬间">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="GitLab Pages 部署 Hexo 博客 | 帽子的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GitLab Pages 部署 Hexo 博客
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-10-15 00:00:00" itemprop="dateCreated datePublished" datetime="2018-10-15T00:00:00+08:00">2018-10-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-07-29 22:58:59" itemprop="dateModified" datetime="2024-07-29T22:58:59+08:00">2024-07-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%9D%82%E9%A1%B9/" itemprop="url" rel="index"><span itemprop="name">博客杂项</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>444</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="使用-Hexo-创建第一篇博客"><a href="#使用-Hexo-创建第一篇博客" class="headerlink" title="使用 Hexo 创建第一篇博客"></a>使用 Hexo 创建第一篇博客</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo: 7.2.0</span><br><span class="line">hexo-cli: 4.3.2</span><br><span class="line">node: 21.7.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><h4 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h4><p>指定文件夹初始化，新建hexo项目</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo init &lt;folder&gt;</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> &lt;folder&gt;</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm install</span></span><br></pre></td></tr></table></figure>
+
+<p>执行完成后，目录结构如下</p>
+<span id="more"></span>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml					# hexo 配置文件</span><br><span class="line">├── package.json				# hexo 依赖文件</span><br><span class="line">├── scaffolds					# 模版目录</span><br><span class="line">├── source</span><br><span class="line">|   ├── _drafts					# 归档目录</span><br><span class="line">|   └── _posts					# 博客目录</span><br><span class="line">└── themes					# 主题目录</span><br></pre></td></tr></table></figure>
+
+<p>对于各个文件、目录更多详情，请移步 <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/setup">Hexo官方文档：建站</a></p>
+<h4 id="新建第一篇博客"><a href="#新建第一篇博客" class="headerlink" title="新建第一篇博客"></a>新建第一篇博客</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果没有设置 layout 的话，默认 post</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo new [layout] --path [path/title] <span class="string">&quot;title&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>更多命令，请移步 <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/commands">Hexo官方文档：指令</a></p>
+<h4 id="本地运行-hexo"><a href="#本地运行-hexo" class="headerlink" title="本地运行 hexo"></a>本地运行 hexo</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo server</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或者</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm run server</span></span><br></pre></td></tr></table></figure>
+
+<p>执行命令，当看到截图所示，则说明项目启动成功 🎉</p>
+<img src="/2018/10/14/blog/hexo-deploy-gitlab-pages/img.png" class="" title="img.png">
+
+<h2 id="使用-GitLab-Pages-部署-Hexo-博客"><a href="#使用-GitLab-Pages-部署-Hexo-博客" class="headerlink" title="使用 GitLab Pages 部署 Hexo 博客"></a>使用 GitLab Pages 部署 Hexo 博客</h2><h3 id="新建-maozzi-gitlab-io-仓库"><a href="#新建-maozzi-gitlab-io-仓库" class="headerlink" title="新建 maozzi.gitlab.io 仓库"></a>新建 maozzi.gitlab.io 仓库</h3><p>浏览器输入 gitlab URL 并登录 <a target="_blank" rel="noopener" href="https://gitlab.com/">https://gitlab.com/</a>，<br>创建一个仓库，名称必须为 {username}.gitlab.io，我的username（登录用户名），<br>这样才能使用 <a target="_blank" rel="noopener" href="https://maozzi.gitlab.io/">https://maozzi.gitlab.io</a>访问。</p>
+<p>如图：</p>
+<img src="/2018/10/14/blog/hexo-deploy-gitlab-pages/img_1.png" class="" title="img_1.png">
+
+<img src="/2018/10/14/blog/hexo-deploy-gitlab-pages/img_2.png" class="" title="img_1.png">
+
+<h3 id="新建-CI-CD-配置文件-YAML文件"><a href="#新建-CI-CD-配置文件-YAML文件" class="headerlink" title="新建 CI&#x2F;CD 配置文件(YAML文件)"></a>新建 CI&#x2F;CD 配置文件(YAML文件)</h3><p>在 hexo 博客项目根目录下新建 <code>.gitlab-ci.yml</code> 文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The Docker image that will be used to build your app</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">node:21.7.1</span></span><br><span class="line"><span class="comment"># Functions that should be executed before the build script is run</span></span><br><span class="line"><span class="attr">before_script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-cli</span> <span class="string">-g</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">generate</span></span><br><span class="line"><span class="attr">pages:</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">generate</span></span><br><span class="line">  <span class="attr">artifacts:</span></span><br><span class="line">    <span class="attr">paths:</span></span><br><span class="line">      <span class="comment"># The folder that contains the files to be exposed at the Page URL</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">public</span></span><br><span class="line">  <span class="attr">rules:</span></span><br><span class="line">    <span class="comment"># This ensures that only pushes to the default branch will trigger</span></span><br><span class="line">    <span class="comment"># a pages deploy</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">if:</span> <span class="string">$CI_COMMIT_REF_NAME</span> <span class="string">==</span> <span class="string">$CI_DEFAULT_BRANCH</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>从两个方面验证。</p>
+<h4 id="验证-URL-访问"><a href="#验证-URL-访问" class="headerlink" title="验证 URL 访问"></a>验证 URL 访问</h4><p>浏览器输入URL：https:&#x2F;&#x2F;{username}.gitlab.io，我的仓库名称为 <code>maozzi.gitlab.io</code>，<br>则浏览器输入 <a target="_blank" rel="noopener" href="https://maozzi.gitlab.io/">https://maozzi.gitlab.io</a>，</p>
+<img src="/2018/10/14/blog/hexo-deploy-gitlab-pages/img_3.png" class="" title="img_3.png">
+
+<h4 id="验证-gitlab-CI-CD-工作流"><a href="#验证-gitlab-CI-CD-工作流" class="headerlink" title="验证 gitlab CI&#x2F;CD 工作流"></a>验证 gitlab CI&#x2F;CD 工作流</h4><p>进入 gitlab ，maozzi.gitlab.io 仓库-&gt; 构建 -&gt; 流水线</p>
+<img src="/2018/10/14/blog/hexo-deploy-gitlab-pages/img_4.png" class="" title="img_4.png">
+
+<ul>
+<li>如果为绿色，说明成功</li>
+<li>如果为红色，说明失败，点击查看详情寻找错误原因</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/hexo/" rel="tag"># hexo</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/11/08/design-pattern/adapter/" rel="next" title="适配器模式">
+                  适配器模式 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">maozzi</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">20k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:23</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://lib.baomitu.com/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://lib.baomitu.com/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
